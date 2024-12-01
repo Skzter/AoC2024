@@ -14,12 +14,14 @@ void ZahlenSpeichern(std::string Zeile);
 int SortierenUndVergleichen(std::vector<int> links, std::vector<int>rechts);
 
 //Part 2
-
+int SimilarityScore(std::vector<int> links, std::vector<int>rechts);
 int main()
 {
-    DateiEinlesen("test.txt");
-    int gesamt = SortierenUndVergleichen(LinkeSeite, RechteSeite);
-    std::cout << "Gesamt > " << gesamt << std::endl;
+    DateiEinlesen("Input1-1.txt");
+    int TotalDistance = SortierenUndVergleichen(LinkeSeite, RechteSeite);
+    std::cout << "TotalDistance > " << TotalDistance << std::endl;
+    int SimScore = SimilarityScore(LinkeSeite, RechteSeite);
+    std::cout << "SimilarityScore > " << SimScore << std::endl;
 }
 
 void DateiEinlesen(std::string Dateiname)
@@ -30,7 +32,6 @@ void DateiEinlesen(std::string Dateiname)
     std::string line;
     while(datei.good())
     {
-        std::cout << "test" << std::endl;
         std::getline(datei, line);
         ZahlenSpeichern(line);
     }
@@ -38,11 +39,9 @@ void DateiEinlesen(std::string Dateiname)
 
 void ZahlenSpeichern(std::string Zeile)
 {   
-    int Zahl1 = std::stoi(Zeile.substr(0, 1),0,10);
-    std::cout << "Z1 > " << Zahl1;
+    int Zahl1 = std::stoi(Zeile.substr(0, 5),0,10);
     LinkeSeite.push_back(Zahl1);
-    int Zahl2 = std::stoi(Zeile.substr(4, 1),0,10);
-    std::cout << " Z2 > " << Zahl2 << std::endl;
+    int Zahl2 = std::stoi(Zeile.substr(8, 5),0,10);
     RechteSeite.push_back(Zahl2);
 
 }
@@ -60,4 +59,26 @@ int SortierenUndVergleichen(std::vector<int>links, std::vector<int>rechts)
     }
 
     return GesamtDistanz;
+}
+
+int SimilarityScore(std::vector<int> links, std::vector<int>rechts)
+{
+    std::sort(links.begin(), links.end());
+    std::sort(rechts.begin(), rechts.end());
+
+    int counter;
+    int SimScore = 0;
+    for(size_t i = 0; i < links.size(); i++)
+    {
+        counter = 0;
+        for(size_t j = 0; j < rechts.size(); j++)
+        {
+            if(links[i] == rechts[j])
+            {
+                counter++;
+            }
+        }
+        SimScore += links[i] * counter;
+    }
+    return SimScore;
 }
