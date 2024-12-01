@@ -8,12 +8,16 @@
 std::vector<int>LinkeSeite;
 std::vector<int>RechteSeite;
 
+// Part 1
 void DateiEinlesen(std::string Dateiname);
 void ZahlenSpeichern(std::string Zeile);
 int SortierenUndVergleichen(std::vector<int> links, std::vector<int>rechts);
+
+//Part 2
+
 int main()
 {
-    DateiEinlesen("Input1-1.txt");
+    DateiEinlesen("test.txt");
     int gesamt = SortierenUndVergleichen(LinkeSeite, RechteSeite);
     std::cout << "Gesamt > " << gesamt << std::endl;
 }
@@ -26,6 +30,7 @@ void DateiEinlesen(std::string Dateiname)
     std::string line;
     while(datei.good())
     {
+        std::cout << "test" << std::endl;
         std::getline(datei, line);
         ZahlenSpeichern(line);
     }
@@ -33,10 +38,13 @@ void DateiEinlesen(std::string Dateiname)
 
 void ZahlenSpeichern(std::string Zeile)
 {   
-    int Zahl1 = std::stoi(Zeile.substr(0, 5),0,10);
+    int Zahl1 = std::stoi(Zeile.substr(0, 1),0,10);
+    std::cout << "Z1 > " << Zahl1;
     LinkeSeite.push_back(Zahl1);
-    int Zahl2 = std::stoi(Zeile.substr(8, 5),0,10);
+    int Zahl2 = std::stoi(Zeile.substr(4, 1),0,10);
+    std::cout << " Z2 > " << Zahl2 << std::endl;
     RechteSeite.push_back(Zahl2);
+
 }
 
 int SortierenUndVergleichen(std::vector<int>links, std::vector<int>rechts)
